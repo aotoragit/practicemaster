@@ -1,14 +1,18 @@
 class Test{
-   public static void main(String hoge[]){
+   public static void main(String[] args){
 
        int[] list = new int[]{1,2,3,4,5};
-       int   fa   = 6 ;
-       int   fi   = 8 ;
-
+    try{
+       int   fa   =  Integer.parseInt(args[0]) ;
+       int   fi   =  Integer.parseInt(args[1]) ;
+    
        System.out.println("sum:" + sum(list));
        System.out.println("ave:" + ave(list));
        System.out.println("fac:" + factory(fa));
        System.out.println("fib:" + fibonacci(fi));
+    }catch(Exception e){
+        System.out.println("Test n(fac) m(fib) ");
+    }
    }
 
    private static int sum(int[] list){
