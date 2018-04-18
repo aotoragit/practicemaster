@@ -1,10 +1,10 @@
 const http = require('http');
-      fs   = require('setting');
+      setting   = require('./setting.js');
 
 const server = http.createServer();
 server.on('request', function(req, res){
     res.writeHead(200, { 'Content-Type': 'text/plain' }),
-    res.write('helloworld!!'),
+    res.write('hello world!!'),
     res.end()
     }).listen(setting.port);
     
