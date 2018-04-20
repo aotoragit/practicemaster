@@ -17,27 +17,25 @@ parent.insertBefore(timeMessage, null);
 
 button.addEventListener('click', function() {
     remainingtimenum = 10 ;
-
-    var timerId = setInterval(function(){
-      timeMessage.innerHTML = '<p>' + remainingtimenum +'second</p>';
-
-      if(remainingtimenum <= 0 ){
-        alert('time up'+remainingtimenum);
-        clearInterval(timerId);
-      }
-      remainingtimenum--;
-
-    },1000);
-
+    
     textarea_flg = textarea_flg * -1;
     if(textarea_flg < 0){
       form.style.display = '';
-      crearInterval(timerId);
-      remainingtimenum = 10 ;
     }else{
       form.style.display = 'block';
+      var timerId = setInterval(function(){
+        timeMessage.innerHTML = '<p>' + remainingtimenum +'second</p>';
+        if(remainingtimenum <= 0 ){
+          alert('time up'+remainingtimenum);
+          clearInterval(timerId);
+        }
+        if (textarea_flg < 0 ){
+          clearInterval(timerId);
+        }
+        remainingtimenum--;
+  
+      },1000);
     };
-
 });
 
 textarea.addEventListener('keyup', function() {
