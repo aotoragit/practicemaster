@@ -1,31 +1,29 @@
-var express = require('express');
-var router = express.Router();
-var msglist = [];
-var fs = require('fs');
-
+const express = require('express');
+const router = express.Router();
+const msglist = [];
+const fs = require('fs');
 
 /*get helo page */
-router.get('/',function(req, res, next){
-    var p1 = req.query.p1;
-    var p2 = req.query.p2;
-    var msg = p1 ===undefined ? "no query" : p1 +"," + p2;
-    res.render('helo',
-    {
+router.get('/', (req, res, next) => {
+    const p1 = req.query.p1;
+    const p2 = req.query.p2;
+    const msg = p1 === undefined ? "no query" : p1 +"," + p2;
+    res.render('helo', {
         title: 'helo page',
         msg  : msg,
         input: '',
-        msglist:''
+        msglist: ''
     });
 });
 
-router.post('/',function(req,res,next){
-    var str = req.body['input1'];
-    if(str !== ""){
+router.post('/', (req, res, next) => {
+    let str = req.body['input1'];
+    if (str !== "") {
         msglist.push(str);
+    } else {
+        str = "no type";
     }
-
-    res.render('helo',
-        {
+    res.render('helo', {
             title:'helo page',
             msg: "your typed :" + str,
             input: '',
@@ -35,6 +33,7 @@ router.post('/',function(req,res,next){
     fs.appendFile("bbs.txt", str + ",", (err) =>{
         if(err){
             console.log('err')
+            fs.close()
         }else{
             console.log('succes')
         }
