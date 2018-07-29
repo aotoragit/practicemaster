@@ -1,43 +1,53 @@
-const express = require('express');
-const router = express.Router();
-const msglist = [];
-const fs = require('fs');
+var express = require('express');
+var router = express.Router();
+var msglist = [];
+var fs = require('fs');
+var firstList;
+
+fs.readFile('bbs.txt','utf-8',(err,data) => {
+    if(err){
+        throw err;
+    }
+    firstList = data.toString().split(',');
+    console.log(firstList)
+    for(var i in firstList){
+        msglist.push(firstList[i])
+    }
+});
+
 
 /*get helo page */
-router.get('/', (req, res, next) => {
-    const p1 = req.query.p1;
-    const p2 = req.query.p2;
-    const msg = p1 === undefined ? "no query" : p1 +"," + p2;
-    res.render('helo', {
+router.get('/',function(req, res, next){
+    var msg = "BBS FORMAT"
+    res.render('helo',
+    {
         title: 'helo page',
         msg  : msg,
         input: '',
-        msglist: ''
-    });
+        msglist:msglist.length === 0 ? firstList : msglist
+    })
+    
 });
 
-router.post('/', (req, res, next) => {
-    let str = req.body['input1'];
-    if (str !== "") {
-        msglist.push(str);
-    } else {
-        str = "no type";
-    }
-    res.render('helo', {
-            title:'helo page',
-            msg: "your typed :" + str,
-            input: '',
-            msglist: msglist
+router.post('/',function(req,res,next){
+    var str = req.body['input1'];
+    if(str !== ""){
+        if(msglist < 9){
+            msglist.push(str);
+        }else{
+            msglist.shift()
+            msglist.push(str);
         }
-    )
-    fs.appendFile("bbs.txt", str + ",", (err) =>{
+    }
+
+    fs.writeFile("bbs.txt", msglist, (err) => {
         if(err){
-            console.log('err')
-            fs.close()
+            console.log('write err')
         }else{
             console.log('succes')
         }
-    })   
+    })
+    res.redirect('helo')
 })
 
 module.exports = router;
