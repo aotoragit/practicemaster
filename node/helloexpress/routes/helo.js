@@ -11,7 +11,7 @@ fs.readFile('bbs.txt','utf-8',(err,data) => {
     firstList = data.toString().split(',');
     console.log(firstList)
     for(var i in firstList){
-        msglist.push(firstList[i])
+        msglist.unshift(firstList[i])
     }
 });
 
@@ -33,10 +33,10 @@ router.post('/',function(req,res,next){
     var str = req.body['input1'];
     if(str !== ""){
         if(msglist < 9){
-            msglist.push(str);
+            msglist.unshift(str);
         }else{
-            msglist.shift()
-            msglist.push(str);
+            msglist.pop()
+            msglist.unshift(str);
         }
     }
 
