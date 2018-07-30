@@ -1,8 +1,8 @@
-var express = require('express');
-var router = express.Router();
-var msglist = [];
-var fs = require('fs');
-var firstList;
+const express = require('express');
+const router = express.Router();
+const msglist = [];
+const fs = require('fs');
+const firstList;
 
 fs.readFile('bbs.txt','utf-8',(err,data) => {
     if(err){
@@ -11,10 +11,9 @@ fs.readFile('bbs.txt','utf-8',(err,data) => {
     firstList = data.toString().split(',');
     console.log(firstList)
     for(var i in firstList){
-        msglist.unshift(firstList[i])
+        msglist.unshift(i);
     }
 });
-
 
 /*get helo page */
 router.get('/',function(req, res, next){
@@ -31,10 +30,10 @@ router.get('/',function(req, res, next){
 
 router.post('/',function(req,res,next){
     var str = req.body['input1'];
-    if(str !== ""){
-        if(msglist < 9){
+    if (str !== "") {
+        if (msglist.length < 9) {
             msglist.unshift(str);
-        }else{
+        } else {
             msglist.pop()
             msglist.unshift(str);
         }
